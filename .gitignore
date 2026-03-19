@@ -1,0 +1,18 @@
+# Python (Caché y archivos temporales)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Entornos virtuales (Si llegas a usar uno)
+venv/
+env/
+.env
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Distribución / Paquetes
+dist/
+build/
+*.egg-info/
