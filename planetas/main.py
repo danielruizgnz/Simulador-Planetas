@@ -20,7 +20,7 @@ def main():
     ultima_pos_raton = (0, 0)
     SUBSTEPS = 50 
 
-    # --- DEFINICIÓN DEL SISTEMA ---
+    # DEF DE SISTEMA
     sol = CuerpoCeleste(0, 0, 20, (255, 255, 0), 1.988 * 10**30, "Sol")
     
     mercurio = CuerpoCeleste(0.38 * CuerpoCeleste.UA, 0, 4, (170, 170, 170), 3.3 * 10**23, "Mercurio", vel_y=-47.4 * 1000)
@@ -45,7 +45,7 @@ def main():
         reloj.tick(60)
         VENTANA.fill((5, 5, 15))
 
-        # --- EVENTOS ---
+        # EVENTOS
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT: corriendo = False
             
@@ -72,7 +72,7 @@ def main():
                 if evento.key == pygame.K_l: enfoque = luna
                 if evento.key == pygame.K_m: enfoque = marte
                 if evento.key == pygame.K_j: enfoque = jupiter
-                if evento.key == pygame.K_a: enfoque = saturno # 'A' para sAturno
+                if evento.key == pygame.K_a: enfoque = saturno # A para saturno
                 if evento.key == pygame.K_SPACE: CuerpoCeleste.TIMESTEP = 3600 * 24
 
         # Controles de tiempo
@@ -80,7 +80,7 @@ def main():
         if teclas[pygame.K_UP]: CuerpoCeleste.TIMESTEP *= 1.05
         if teclas[pygame.K_DOWN]: CuerpoCeleste.TIMESTEP /= 1.05
 
-        # --- FÍSICA ---
+        # FÍSICA
         dt_sub = CuerpoCeleste.TIMESTEP / SUBSTEPS
         for _ in range(SUBSTEPS):
             for p in lista_planetas:
@@ -90,21 +90,20 @@ def main():
             p.orbita.append((p.x, p.y))
             if len(p.orbita) > 1200: p.orbita.pop(0)
 
-        # --- CÁMARA ---
+        # CÁMARA
         if enfoque:
             escala = CuerpoCeleste.ESCALA_BASE * zoom
             despl_x = -enfoque.x * escala
             despl_y = -enfoque.y * escala
 
-        # --- DIBUJO ---
+        # DIBUJO
         for e in estrellas:
             ex = (e[0] + despl_x * 0.05) % ANCHO
             ey = (e[1] + despl_y * 0.05) % ALTO
             pygame.draw.circle(VENTANA, (150, 150, 150), (int(ex), int(ey)), 1)
 
-        # En main.py, dentro del bucle de dibujo:
         for p in lista_planetas:
-            # Le pasamos la referencia de la Tierra a todos (solo la Luna la usará)
+            # referencia de la tierra al resto (solo para luna)
             p.dibujar(VENTANA, ANCHO, ALTO, zoom, despl_x, despl_y, tierra=tierra)
 
         # UI

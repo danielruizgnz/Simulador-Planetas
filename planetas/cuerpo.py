@@ -22,33 +22,29 @@ class CuerpoCeleste:
         escala = self.ESCALA_BASE * zoom
         
         # --- TRUCO VISUAL PARA LA LUNA ---
-        # Si somos la Luna y tenemos la referencia de la Tierra, 
-        # exageramos la distancia visual para que no parezca que está dentro.
         x_dibujo, y_dibujo = self.x, self.y
         
         if self.nombre == "Luna" and tierra:
-            # Calculamos el vector Tierra -> Luna
+            # vector Tierra -> Luna
             dx = self.x - tierra.x
             dy = self.y - tierra.y
             distancia_real = math.sqrt(dx**2 + dy**2)
             
             if distancia_real > 0:
-                # Factor de exageración visual (ej: 15 veces más lejos visualmente)
+                # exageración visual
                 factor_exageracion = 15 
                 # Nueva posición visual exagerada
                 x_dibujo = tierra.x + (dx / distancia_real) * (distancia_real * factor_exageracion)
                 y_dibujo = tierra.y + (dy / distancia_real) * (distancia_real * factor_exageracion)
-        # ----------------------------------
 
-        # Usamos las coordenadas de dibujo calculadas
+
+        # coordenadas de dibujo calculadas
         x = x_dibujo * escala + ancho / 2 + despl_x
         y = y_dibujo * escala + alto / 2 + despl_y
 
-        # 1. Estela
+        # Estela
         if len(self.orbita) > 2:
             puntos_dibujo = []
-            # La estela de la Luna también necesita el truco visual si queremos que se vea
-            # (Por simplicidad ahora no lo aplicamos a la estela, o se verá rara)
             limite = 200 if self.nombre == "Luna" else 1000
             for p in self.orbita[-limite:]:
                 px = p[0] * escala + ancho / 2 + despl_x
